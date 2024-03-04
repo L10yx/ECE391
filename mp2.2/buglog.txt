@@ -1,0 +1,37 @@
+MP2_BUG_LOG
+author: Yuxuan Lin
+
+1.
+DESCRIPTION: 
+    some stupid syntax confusion between C and C++
+    error: 'for' loop initial declaration used outside C99 mode
+SOLUTION:
+    This error message indicates that in C code, I tried to declare a variable in the initialization part of the for loop 
+    (i.e. inside the parentheses of the for loop), and this usage does not comply with the C99 standard or later. 
+    So I declared index outside for loop.
+
+2. 
+DESCRIPTION: 
+    status bar don't show
+SOLUTION: 
+    In modex.h, change #define IMAGE_Y_DIM  from 200 to 182 inspired by version checkpoint1 gradesheet
+    for not showing full maze
+
+3.
+description: when begin to move, there will be an original picture at starting point
+SOLUTION:
+    comment out         
+    // draw_full_block(play_x, play_y, get_player_block(last_dir));
+    // show_screen();
+
+4:
+DESCRIPTION:
+    Bar did not display on screen
+SOLUTION:    
+    change
+        /* One display page goes at the start of video memory. */
+        target_img = 0x0000;
+    =>
+        target_img = 0x0600;    
+    By changing the memory of status bar, it showed but still emulated
+
