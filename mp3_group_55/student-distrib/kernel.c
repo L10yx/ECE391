@@ -9,6 +9,8 @@
 #include "debug.h"
 #include "tests.h"
 
+#include "idt.h"
+
 #define RUN_TESTS
 
 /* Macros. */
@@ -138,7 +140,7 @@ void entry(unsigned long magic, unsigned long addr) {
 
     /* Init the PIC */
     i8259_init();
-    lidt(idt_desc_ptr);
+
     /* Initialize devices, memory, filesystem, enable device interrupts on the
      * PIC, any other initialization stuff... */
 
