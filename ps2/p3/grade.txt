@@ -1,0 +1,4 @@
+Grade: 17/18
+
+Comments:
+-1 no null check
