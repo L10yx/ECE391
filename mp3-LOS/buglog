@@ -1,0 +1,51 @@
+Date, Bug : Solution
+
+03/17, GDT unable to load undefined reference on gdt_desc:
+	gdt_desc need to be created in x86_desc.S. Using the struct declared in x86_desc.h does not work
+
+
+03/18, As for naming in C, variable should not begin with number
+
+3/19, OS was crashing when rtc handler was run:
+	 We were negating a value that was being pushed to the slave PIC. We got rid of the negation.
+
+3/25 page fault, because out of buffer range
+
+
+4/8 page fault in execute system call, caused by read_data length argument being passed as a pointer instead of a uint32
+4/8 It kept calling terminal read, this is because terminal read was not set up to poll.
+
+4/13 page fault, read_file_by_name was given wrong length pointer. 
+	Needed to &length in order to pass the address and prevent illegal memory access
+4/13 Terminal read was reading each key twice (abc -> aabbcc), this is because the kbd interupt handler was pushing keys
+	regardless of whether or not it was the pressed or released scancode. 
+4/13 eax value was pushed and poped so we cannot  get correct return value
+
+4/13 devel crashes after flushing tlb.
+	Incorrect pid passed into PDE macro
+
+4/14 in cp2 I wrote directory name start from the end of buf for the sake of alignment, while in cp4 dread cannot ouput files except verylarge...
+
+4/20 Biggest bug finished, we wrongly wrote SET_IDT_ENTRY(idt[0x28], rtc_interrupt_linkage); to use handler instead
+
+4/20 syserr fixed, since we have not set eax to -1
+
+4/26 vidmap fixed. delete & before page table
+
+4/26 halt fixed. Removed by refrence operators in flush TLB inline assembly. Also changed how tss.esp0 is calculated.
+
+4/27 terminal switch print position error. - record screen position for every terminal.
+
+4/27 remap video memory in execute to fix fish page fault in terminal0
+
+4/28 grep fixed since rtc_read wrongly return 1. 
+
+4/28 cat fixed since terminal read breaks loop wrongly.
+
+4/28 fish only running on first terminal. Pingpong and counter were always running no matter what terminal they started in. 
+     We hadn't properly implemented terminal switching, we still needed to have processes pause and resume when a terminal switch happened.
+	 We finished context switching in the terminal_switch function to make solve this issue.
+
+4/28 CTRL + L was not working anymore. In the clear command we were using the wrong flag, so we switched that. 
+
+4/28 Keyboard buffer overflow wasn't being handled well, we changed it to no longer take any more inputs, but still be able to be used as an input.
